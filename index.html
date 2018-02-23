@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Game-o-noid</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+  *{
+    margin-top:0;
+    padding:0;
+  }
+  
+  body{
+      background:linear-gradient(-90deg,black,rgb(165, 165, 165));
+  }
+
+  #roadRash{
+     float:left; 
+     background-color:white;
+     border-radius:10px;
+  }
+
+  button {
+    padding:8px 12px;
+    font-size:18px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+button:hover {background-color: #3e8e41}
+
+button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+#roadRash{
+     float:left; 
+    background-color:white;
+     border-radius:10px;
+     margin-top:2%;
+     margin-left:5%;
+     margin-bottom:2%;
+     background-size:cover;
+      background-position:right;
+      background-repeat:no-repeat;
+      z-index:-1;
+      transition:0.8s;
+    
+  }
+ #roadRashBtn{
+      width:100%;
+      float:left;
+      height:100%;
+
+  } 
+  
+  #otherBtn{
+      width:100%;
+      float:left; 
+       margin-top:4%;
+        text-align:center;
+  }
+  
+  
+  
+@media screen and(max-width:400px){
+      *{
+    margin-top:0;
+    padding:0;
+  }
+  button {
+    font-size:24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+button:hover {background-color: #3e8e41}
+
+button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+   #roadRashBtn{
+      width:100%;
+      float:left;
+      height:100%;
+      
+  } 
+  
+  #otherBtn{
+      width:100%;
+      float:left;
+      margin-top:4%;
+      text-align:center;
+  }
+  
+  
+}
+    
+</style>
+</head>
+<body onload="startGame()" >
+<div id="roadRashBtn">
+    <table class="col-sm-12" style="height:auto;float:left;padding-top:5px;padding-bottom:5px">
+    <tr style="width:100%;border:none">
+    <td style="width:20%" ></td>
+    <td style="width:20%;padding-left:5px"><button type="button"  id="up" onmousedown="upBtn()" ontouchstart="upBtn()"  onmouseup="clearmove()" class="glyphicon glyphicon-triangle-top" style="box-shadow:0 9px 0 rgb(85, 84, 84);color:white;width:100%;height:auto;border-radius:10px;background:linear-gradient(0deg,black,grey)"></button></td>
+    <td style="width:20%"></td>
+    <td style="width:40%;padding-right:5px" rowspan="3"><button type="button" class="glyphicon glyphicon-compressed" style="float:right;background:linear-gradient(180deg,rgb(107, 3, 3),red);box-shadow:0 9px 0 rgb(109, 3, 3);border-radius:50%;width:50%;height:auto;font-size:40px;color:white"></button></td>
+    </tr>
+    <tr style="width:100%;border:none">
+        <td style="width:20%;padding-left:5px"><button type="button"  id="left"  onmousedown="leftBtn()"  ontouchstart="leftBtn()" onmouseup="clearmove()" class="glyphicon glyphicon-triangle-left" style="box-shadow:0 9px 0 rgb(85, 84, 84);color:white;width:100%;height:auto;border-radius:10px;background:linear-gradient(90deg,black,grey)"></button></td>
+        <td style="width:20%"></td>
+        <td style="width:20%;padding-left:5px"><button type="button"  id="right" onmousedown="rightBtn()"  ontouchstart="rightBtn()"  onmouseup="clearmove()" class="glyphicon glyphicon-triangle-right" style="box-shadow:0 9px 0 rgb(85, 84, 84);color:white;width:100%;height:auto;border-radius:10px;background:linear-gradient(-90deg,black,grey)"></button></td>
+        <td style="width:40%"></td>
+    </tr>
+    
+    <tr style="width:100%;border:none">
+            <td style="width:20%"></td>
+            <td style="width:20%;padding-left:5px" ><button type="button" onmousedown="downBtn()" ontouchstart="downBtn()"  onmouseup="clearmove()" id="down" class="glyphicon glyphicon-triangle-bottom" style="box-shadow:0 9px 0 rgb(85, 84, 84);color:white;width:100%;height:auto;border-radius:10px;background:linear-gradient(180deg,black,grey)"></button></td>
+            <td style="width:20%"></td>
+            <td style="width:40%"></td>
+    </tr>
+  </table>
+</div>
+<div id="otherBtn" >
+    <button type="button" style="width:30%;float:left;padding:2px 5px;font-weight:bold;font-size:10px;box-shadow: 0 7px #999" onclick="start()">Start</button>
+    <button type="button" style="width:30%;float:left;box-shadow: 0 7px #999;padding:2px 5px;margin-left:3%;font-weight:bold;background-color:rgb(132, 19, 19);font-size:10px" onclick="pause()">Pause</button>
+    <button type="button" style="width:30%;float:right;box-shadow: 0 7px #999;padding:2px 5px;color:black;font-weight:bold;background-color:white;font-size:10px" onclick="menu()">Menu</button><br><br>
+</div>
+
+
+<div id="menu" style="font-size:15px;overflow:hidden;transition:0.5s;position:fixed;top:0;left:0;width:0%;height:100%;background-color:rgba(0,0,0,0);visibility:hidden">
+    <div id="menuContainer" style="float:left;width:75%;height:100%;background-color:white;border-right:1px solid #888">
+        <div id="header" style="background:linear-gradient(180deg,rgb(0, 0, 0),grey);float:left;width:100%;height:auto;padding-top:5%;padding-bottom:5%;text-align:center;color:white;font-weight:bold"> Choose Your Game <span style="padding-right:5%;float:right" id="retriveMenu" class="glyphicon glyphicon-backward" onclick="retriveMenu()"></span></div>
+
+    <div id="birdIcon" class="thumbnail" onclick="game(1)" style="background:linear-gradient(180deg,rgb(105, 216, 241),green,rgb(110, 75, 75));margin-left:10%;width:80%;float:left;text-align:center;margin-top:2%">
+        <img style="float:left;margin-left:30%" src="birdy.gif" border="0" alt="animated-bird-image-0250" />
+        <h2 style="width:100%;text-align:center;color:white;font-weight:bold">Piper</h2>
+    </div><!--********************************piper ends*********************************-->
+    
+  <!--  <div id="carIcon" class="thumbnail" style="height:25%;background:linear-gradient(180deg,rgb(105, 216, 241),rgb(212, 121, 79),rgb(0, 0, 0));margin-left:10%;width:80%;float:left;text-align:center;margin-top:2%">
+      <img style="float:left;margin-left:30%;margin-top:10%" src="car.gif" border="0" alt="animated-car-image-0250" />
+      <h2 style="width:100%;text-align:center;color:white;font-weight:bold;padding-top:20%">Road Rash</h2>
+  </div>********************************Road Rash ends*********************************-->
+  
+ <!-- <div id="spaceIcon" class="thumbnail" style="height:25%;background:linear-gradient(180deg,rgb(0, 0, 0),rgb(151, 150, 149),rgb(0, 0, 0));margin-left:10%;width:80%;float:left;text-align:center;margin-top:2%">
+      <img style="float:left;margin-left:30%;margin-top:5%" src="space.gif" border="0" alt="animated-spaceship-image-0250" />
+      <h2 style="width:100%;text-align:center;color:white;font-weight:bold;padding-top:10%">Spacetron</h2>
+  </div>********************************Spacetron ends*********************************-->
+  
+
+    </div>
+    
+</div>
+<img id="fb1" src="bird2.gif" style="position:absolute;display:none"/>
+<script>
+  //http://www.animatedimages.org/data/media/604/animated-spaceship-image-0011.gif
+//<a href="https://ibb.co/fQ7rgw"><img src="https://preview.ibb.co/jmjtuG/giphy.gif" alt="giphy" border="0"></a><a href="https://ibb.co/fQ7rgw"><img src="https://preview.ibb.co/jmjtuG/giphy.gif" alt="giphy" border="0"></a>
+/*************************Create Menu**************************************/
+function menu(){
+    document.getElementById('menu').style.visibility="visible";
+    document.getElementById('menu').style.opacity=1;
+    document.getElementById('menu').style.fontSize="15px";
+    document.getElementById('menu').style.width="100%";
+    document.getElementById('roadRashBtn').style.filter="blur(5px)";
+    document.getElementById('otherBtn').style.filter="blur(5px)";
+    document.getElementById('fb1').style.display="none";//bird image
+}
+var play=0;
+function retriveMenu(){
+    document.getElementById('menu').style.opacity=0;
+    document.getElementById('menu').style.fontSize="0px";
+    document.getElementById('menu').style.width="0%";
+    document.getElementById('roadRashBtn').style.filter="blur(0px)";
+    document.getElementById('otherBtn').style.filter="blur(0px)";
+     document.getElementById('menu').style.visibility="hidden";
+     if(play==1){
+         document.getElementById('fb1').style.display="block";
+         document.getElementById('fb1').style.width=window.innerWidth*0.1+"px";
+        document.getElementById('fb1').style.height=window.innerHeight*0.05+"px";
+     }
+   
+}
+
+/*****************creating an object for canavs screen******************************/
+var gameScreen;
+var bird;
+var obstacle=[];
+var up=0;
+var right = 0;
+var birdbacksound;
+var textScore;
+right = window.innerWidth/10;
+up = window.innerHeight/4;
+ var y =  (window.innerHeight/4)*1.05;
+    var x= window.innerWidth/10;
+    
+    function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.setAttribute('loop', 'autoplay');
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }    
+}
+   var birdWidth;
+    var birdHeight;
+function startGame(){
+        
+     gameScreen.start();
+    var x1 = gameScreen.canvas.width/14;
+    var y1 = gameScreen.canvas.height/2.5;
+ birdWidth=(gameScreen.canvas.width*0.11);
+    birdHeight = gameScreen.canvas.height*0.06;
+     birdbacksound = new sound("birdBackground.mp3");
+     bird = new bird1(x1,y1,x,y,birdWidth,birdHeight,"rgba(0,0,0,0)");
+    var textW = gameScreen.canvas.width*0.3;
+    var textH = gameScreen.canvas.height*0.04;
+    var textXAxis = gameScreen.canvas.width/2;
+     textScore= new textBird(textH+"px", "Consolas", "black", textXAxis, textH, "text");
+   
+    clearInterval(gameScreen.interval);
+   gameScreen.clear();
+}
+
+     
+function animateBird(){
+  document.getElementById('fb1').style.transition="0.8s";
+   document.getElementById('fb1').style.opacity=0.5;
+   document.getElementById('fb1').style.top="0px";
+   document.getElementById('fb1').style.transform="rotate(0deg)";
+   setTimeout(function(){
+    document.getElementById('fb1').style.top=(window.innerHeight/4) +"px";
+    document.getElementById('fb1').style.opacity=1;
+   document.getElementById('fb1').style.transition="0s";
+    console.log("Its On");
+   },2000);
+}
+
+
+    gameScreen = {
+    canvas: document.createElement("canvas"),
+    start : function(){
+        this.canvas.width = window.innerWidth*0.90;
+        this.canvas.height = window.innerHeight*0.67;
+        this.canvas.setAttribute("id","roadRash");
+        document.body.insertBefore(this.canvas,document.body.childNodes[0]);
+        this.context = this.canvas.getContext("2d");
+        this.frameNo = 0;
+        
+        this.interval = setInterval(updateGameScreen,20);
+    },
+    
+    clear : function(){
+        this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+    },
+    
+    stop : function(){
+        clearInterval(this.interval);
+    }
+};
+
+
+
+function game(data){
+  retriveMenu();
+  switch(data){
+    case 1:
+    //startGame();
+    gameScreen.clear();
+    gameScreen.interval=setInterval(updateGameScreen,20);
+    animateBird();
+    document.getElementById('fb1').style.display="block";
+    document.getElementById("roadRash").setAttribute("style","background-image:url('piperbackground.gif')");
+   // gameScreen.clear();
+    textScore.update();
+    bird.update();
+    birdbacksound.play();
+    play=1;
+    break;
+  }
+}
+var endDown = 0;
+function textBird(width, height, color, x, y,type){
+    this.x1 = x;
+    this.y1 = y;
+    this.width = width;
+  this.height = height;
+  this.fill ="black";
+  //  this.text='Score: ';
+     this.update= function(){
+        var score = gameScreen.context;
+        score.font = this.width + " " + this.height;
+        score.fillStyle=this.fill;
+        score.fillText(this.text, this.x1, this.y1);
+   }
+}
+
+function bird1(x,y,realX,realY,width,height,color){
+    this.xBird = x;
+    this.yBird = y;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.realX1 = realX;
+    this.realY1 = realY;
+    this.width1 = width;
+    this.height1 = height;
+    this.color1 = color;
+    this.update = function(){
+        
+        var birdObject = gameScreen.context;
+        birdObject.fillStyle = this.color1;
+        birdObject.fillRect(this.xBird, this.yBird, this.width1, this.height1);
+        document.getElementById('fb1').style.top=this.realY1+"px";
+        document.getElementById('fb1').style.left=this.realX1+"px";
+        endDown=this.realY1;
+    }
+    
+    this.newPos = function(){
+    //notefor smooth running dont use tansition on image element    
+      
+      this.xBird+= this.speedX;
+       this.realX1+=this.speedX;
+       this.yBird+=this.speedY;
+       this.realY1+=this.speedY;
+    }
+    
+    this.crash = function(obstacleDta){
+        var objectLeft = obstacleDta.xBird;
+        var objectRight = obstacleDta.xBird + obstacleDta.width1;
+        var objectTop = obstacleDta.yBird;
+        var objectBottom = obstacleDta.yBird + obstacleDta.height1;
+        var birdLeft = this.xBird;
+        var birdRight = this.xBird+ this.width1;
+        var birdTop = this.yBird;
+        var birdBottom = this.yBird + this.height1;
+        var crash1 = true;
+        if((birdLeft>objectRight)||(birdBottom<objectTop) || (birdRight<objectLeft) || (birdTop>objectBottom)){
+            crash1 = false;
+        }
+        
+        return crash1;
+        
+    }
+    
+    
+     this.crashframe = function(){
+        var birdLeft = this.xBird;
+        var birdRight = this.xBird + this.width1;
+        var birdTop = this.yBird;
+        var birdBottom = this.yBird + this.height1;
+   
+     /*******************************left ad right screen retriction*********************************/ 
+        if(birdRight>=gameScreen.canvas.width){
+             this.xBird=this.xBird-1;
+             this.realX1=this.realX1-1;
+             this.update();
+            // crashframe1 = false;
+        }
+        else if(birdLeft<=gameScreen.canvas.width/14){
+             this.xBird=this.xBird+1;
+             this.realX1=this.realX1+1;
+             this.update();
+            // crashframe1 = false;
+        }
+    
+    /*******************************left ad right screen retriction*********************************/
+        
+        
+       /*****************************Top ad Bottom screen retriction*****************************************/ 
+        if(birdTop<=0){
+             this.yBird=this.yBird+1;
+             this.realY1=this.realY1+1;
+             this.update();
+            // crashframe1 = false;
+        }
+        else if(birdBottom>=gameScreen.canvas.height){
+             this.yBird=this.yBird-1;
+             this.realY1=this.realY1-1;
+             this.update();
+        }
+        /*****************************Top ad Bottom screen retriction**************************************/
+
+    }
+}
+
+
+function rightBtn(){
+    if(play==1){
+        bird.speedX=1;
+    }
+
+    
+}
+
+function leftBtn(){
+ 
+      if(play==1){
+        bird.speedX=-1;
+      }
+
+  
+}
+
+function upBtn(){
+    if(play==1){
+        bird.speedY=-1;
+    }
+}
+
+function downBtn(){
+    if(play==1){
+        bird.speedY=1;
+    }
+}
+var clearBird;
+var rotateBird = 0;
+var speedObject=-0.5;
+  var objHt = gameScreen.canvas.height;
+         var objWt = gameScreen.canvas.width*0.02;
+         var xObj = gameScreen.canvas.width/14;
+         var interval = gameScreen.canvas.width*0.04;
+         var minHeight =objHt*0.3; 
+         var maxHeight=objHt;
+         var gap;
+         var maxGap=objHt*0.9;
+         var minGap=objHt*0.35;
+         var height;
+         var totalHt1;
+         var totalHt2;
+function updateGameScreen(){
+    
+    for(var iBird=0;iBird<obstacle.length;iBird++){
+        if(bird.crash(obstacle[iBird])){
+            
+            gameScreen.stop();
+           birdbacksound.stop();
+           document.getElementById("roadRash").setAttribute("style","background-image:url('piperbackground.gif')");
+            animateBirdDead();
+            
+            return;
+        }
+    }
+    gameScreen.clear();
+     gameScreen.frameNo+=1;
+     if(gameScreen.frameNo==1 || everyInterval(interval)){
+         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        // height = objHt-gap;
+        console.log(gap);
+        xObj+=130;
+         obstacle.push(new bird1(xObj,20,x,y,10,height,"rgb(255,0,0)"));
+            //totalHt=gameScreen.canvas.height-totalHt+10-gap;
+        obstacle.push(new bird1(xObj,gap+height+10,x,y,10,gameScreen.canvas.height-gap-height-10,"#888"));
+         
+     }
+     for(var iBird1=0;iBird1<obstacle.length;iBird1++){
+
+          obstacle[iBird1].update();
+        obstacle[iBird1].xBird+=speedObject;
+      bird.crashframe(obstacle[iBird1]);
+
+     }
+     textScore.text = "Score: "+ gameScreen.frameNo;
+     if(gameScreen.frameNo===1000){
+         textScore.fill="blue";
+         document.getElementById("roadRash").setAttribute("style","background-image:url('birdyBackground.gif')");
+         document.getElementById("fb1").src="birdy1.gif";
+         speedObject=-0.8;
+     }else if(gameScreen.frameNo===3000){
+        textScore.fill="black";
+         document.getElementById("roadRash").setAttribute("style","background-image:url('piperbackground.gif')");
+         document.getElementById("fb1").src="bird2.gif";
+         speedObject=-0.5;
+     }
+     textScore.update();
+        bird.newPos(); 
+        bird.update();
+
+}
+
+function everyInterval(n){
+    if((gameScreen.frameNo/n)%1==0){return true};
+    return false;
+}
+
+function clearmove(){
+  bird.speedX=0;
+  bird.speedY=0;
+  
+}
+
+
+
+function animateBirdDead(){
+document.getElementById('fb1').style.transition="0.5s";
+  clearBird= setInterval(function(){
+       endDown+=1;
+       if(endDown<gameScreen.canvas.height*0.9){
+           
+           if(rotateBird<=360){
+              if(rotateBird==360){
+                  rotateBird=0;
+              }else{
+                 rotateBird+=1;  
+              }
+              
+           }
+          
+       }  
+       else {
+                  document.getElementById('fb1').setAttribute("src","deadBird.png");
+                  rotateBird=0;
+                  clearInterval(clearBird);
+              }
+          
+    document.getElementById('fb1').style.top=endDown +"px";
+    document.getElementById('fb1').style.opacity=1;
+    document.getElementById('fb1').style.transform="rotate("+rotateBird+"deg)";
+    document.getElementById('fb1').style.transition="0s";
+    console.log("Its On");
+   },5); 
+}
+
+function pause(){
+    if(play==1){
+        
+         document.getElementById("fb1").src="stopBird.png";
+        gameScreen.stop();
+        birdbacksound.stop();
+    }
+}
+
+function start(){
+    if(play==1){
+         document.getElementById("fb1").src="bird2.gif";
+       gameScreen.interval = setInterval(updateGameScreen,20);
+       birdbacksound.play();
+    }
+}
+
+</script>
+</body>
+</html>
